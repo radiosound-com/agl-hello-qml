@@ -28,7 +28,7 @@ Do these before opening the project
 #### Compilers tab
 - Add: Custom C++
   - Name: `AGL`
-  - Compiler path: `C:\agl\xds-make.exe` (Make sure C:\agl\ is in your path)
+  - Compiler path: `C:\agl\xds-make.exe` (Make sure C:\agl\ or wherever you placed the executable is in your path)
   - All other fields blank/unknown
 #### Kits tab
 - Add
