@@ -113,6 +113,7 @@ Check the box for the AGL kit you previously set up
 - Run configuration: Add: Custom executable (on remote generic linux host)
   - Remote executable: echo
   - Arguments: "Insert command line to start and show app on screen here? In the mean time, tap that app on the home screen"
+- Remove run configuration hello_qml (on Remote Device)
 
 After you hit the green Run button in Qt Creator, check the compile output to see that it installed the .wgt file
 ```
