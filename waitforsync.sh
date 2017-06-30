@@ -1,0 +1,1 @@
+while [ ! -f build-agl/package/hello_qml.wgt ]; do sleep 0.25; done

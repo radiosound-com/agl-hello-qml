@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" id="hello_qml" version="0.1">
+  <name>Hello QML</name>
+  <icon src="icon.svg"/>
+  <content src="bin/hello_qml" type="application/vnd.agl.native"/>
+  <description>This is a demo QML application</description>
+  <author>Dennis Field at Radio Sound</author>
+  <license>APL 2.0</license>
+  <feature name="urn:AGL:widget:required-permission">
+    <param name="urn:AGL:permission::public:no-htdocs" value="required" />
+  </feature>
+</widget>
+
+
