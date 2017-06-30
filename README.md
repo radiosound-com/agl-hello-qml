@@ -1,2 +1,130 @@
 # agl-hello-qml
-A simple hello-world app that can be compiled using XDS server and deployed to a remote device running AGL
+A simple hello-world app using AGL style controls that can be run either on your desktop or on AGL
+
+## Note for AGL quickcontrols2 style
+If you'd like to run the UI on your desktop and see it in AGL style, you'll need the AGL quick controls 2 style files on your machine
+`git clone https://gerrit.automotivelinux.org/gerrit/p/src/qtquickcontrols2-agl-style.git` and place the .QML and image files in, e.g. C:\Qt\5.9\mingw53_32\qml\QtQuick\Controls.2\AGL
+
+I found this to be pretty handy for checking to see what it would look like before trying to deploy to the board, so I also added some tweaks to main.cpp and the default QML hello world app so that it'd scale on desktops whose monitors aren't that tall ;)
+
+# Qt Creator + XDS server integration
+Heard of [XDS](https://lists.linuxfoundation.org/pipermail/automotive-discussions/2017-June/004293.html) yet? If not, read there first.
+
+This is very, very, very preliminary. It's the first time I've tinkered around with an IDE to do anything remotely close to as sophisticated as remote cross building. It'll improve over time with your help, or as I tinker with it more. :) Thanks to IoT.bzh for the video, which showed it off in NetBeans and inspired me to try it in Qt Creator, and thanks to Sebastien for infinite patience with me back and forth on the mailing list trying to get it up and running.
+
+This is what it took for me to get things running in Windows. I'll try later with a Linux box. Suggestions welcome! I'm pretty sure a lot of this stuff can be simplified by writing the right plugin or configuration or something.
+
+## Qt Creator Options
+Do these before opening the project
+
+### Devices tab on the left
+- Add: Generic Linux Device
+  - Name: `My AGL board`
+  - Host name: `board.ip.address.here`
+  - Username: `root`
+  - Password: blank (Note: this depends on the agl image being built with agl-devel. If it is not, I guess you'd need to set up ssh keys)
+
+### Build & Run tab on the left
+#### Compilers tab
+- Add: Custom C++
+  - Name: `AGL`
+  - Compiler path: `C:\agl\xds-make.exe`
+  - All other fields blank/unknown
+#### Kits tab
+- Add
+  - Name: `AGL armv7vehf` (or your particular arch)
+  - Device type: Generic Linux Device
+  - Device: select your device
+  - Compiler:
+    - C
+      - No compiler
+    - C++
+      - AGL
+  - Environment: Change...
+    - ```
+      XDS_SERVER_URL=http://xds.server.url:8000
+      XDS_SDK_ID=poky-agl_armv7vehf_3.99.1+snapshot
+      ```
+      (substitute for whatever SDK you installed - at the command line, `xds-exec list` will show you)
+      
+  - Debugger: None
+
+  - Qt version: ? select whatever's available, I guess - if you select none, the project will not be able to be configured with the AGL kit.
+    - TODO: add a Qt Version package that matches what the XDS is using to build? I get some warning messages in Qt Creator about things not matching up
+
+## Clone & build project
+Open the top hello\_qml.pro
+
+### Configure with AGL kit
+Check the box for the AGL kit you previously set up
+
+### Projects tab
+
+#### Build & Run \ AGL kit
+(TODO: come up with a custom Qt Creator plugin instead of RemoteLinux to set up reasonable build & run defaults for AGL?)
+
+##### Build
+- General: set Build directory:
+  ```
+  .\build-agl
+  ```
+  (Qt Desktop doesn't like you putting build directories under source directories, but we can do what we want here)
+  
+- Delete all existing build and clean steps (TODO: figure out how to create a build configuration that puts these in for you?)
+
+- Add build steps:
+  - Custom process step
+    - Command: `xds-exec`
+    - Arguments: `-- rm -f build-agl/package/%{CurrentProject:Name}.wgt`
+
+  - Custom process step
+    - Command: `xds-exec`
+    - Arguments: `-- mkdir -p build-agl; cd build-agl; qmake ../`
+
+  - Custom process step
+    - Command: `xds-exec`
+    - Arguments: `-- cd build-agl; make all`
+
+- Add clean step: Custom process step
+  - Command: `xds-exec`
+  - Arguments: `-- rm -r build-agl/* build-agl/.qmake.stash`
+
+- Build environment:
+  - Add `XDS_PROJECT_ID=ASDF-FDSA_project_id`
+
+##### Run
+- Deployment
+  - Add Deploy Step: Custom Process Step
+    - Command: `waitforsync.bat` (Windows)
+    - Move this before Upload files via SFTP (it's a batch file that waits until the .wgt file exists in build-agl\package)
+    
+  - Add Deploy Step: Run custom remote command (after Upload files via SFTP)
+    - ```
+      afm-util kill `pgrep -f afb-daemon.*hello_qml`
+      ```
+      
+  - Add Deploy Step: Run custom remote command
+    - ```
+      afm-util install hello\_qml.wgt
+      ```
+      
+- Run configuration: Add: Custom executable (on remote generic linux host)
+  - Remote executable: echo
+  - Arguments: "Insert command line to start and show app on screen here? In the mean time, tap that app on the home screen"
+
+After you hit the green Run button in Qt Creator, check the compile output to see that it installed the .wgt file
+```
+20:42:02: All files successfully deployed.
+20:42:02: Deploy step finished.
+20:42:02: Starting remote command "afm-util kill `pgrep -f afb-daemon.*hello_qml`"...
+true // NOTE: this will say not found if there was no process that matched that pattern--that's normal
+20:42:02: Remote command finished successfully.
+20:42:02: Deploy step finished.
+20:42:02: Starting remote command "afm-util install hello_qml.wgt"...
+{ "added": "hello_qml@0.1" }
+20:42:02: Remote command finished successfully.
+20:42:02: Deploy step finished.
+```
+
+## Run it on AGL
+I don't know how to get an app to show up on screen from the command line. `afm-util start hello_qml@0.1` will start the app, but it will not be in any visible surfaces and you'll have to kill it and start it from the home screen. After the first install, you need to reboot for the home screen to add a space for the app, then just tap it from the home screen after each deployment. (If the home screen still looks like the same 3x3 grid even after you reboot, check that it isn't one of the hidden spaces at the bottom - touch and hold HVAC and move it down past the bottom row)
