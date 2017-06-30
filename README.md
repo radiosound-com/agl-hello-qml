@@ -53,6 +53,8 @@ Do these before opening the project
     - TODO: add a Qt Version package that matches what the XDS is using to build? I get some warning messages in Qt Creator about things not matching up
 
 ## Clone & build project
+Clone the repository, if you haven't already. In your XDS dashboard, at http://xds.server.url:8000 as you previously specified, set up a new project in the folder where you put it. You'll get a project ID.
+
 Open the top hello\_qml.pro
 
 ### Configure with AGL kit
