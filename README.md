@@ -70,6 +70,7 @@ Check the box for the AGL kit you previously set up
   ```
   .\build-agl
   ```
+  and mkdir it (next to app and package) if you don't want the first run to fail
   (Qt Desktop doesn't like you putting build directories under source directories, but we can do what we want here)
   
 - Delete all existing build and clean steps (TODO: figure out how to create a build configuration that puts these in for you?)
@@ -99,6 +100,7 @@ Check the box for the AGL kit you previously set up
   - Add Deploy Step: Custom Process Step
     - Command: `waitforsync.bat` (Windows)
     - Move this before Upload files via SFTP (it's a batch file that waits until the .wgt file exists in build-agl\package)
+    - (Note: This step will fail on the first build if you haven't made build-agl, but it will work fine after everything is synced up through the syncthing that XDS uses)
     
   - Add Deploy Step: Run custom remote command (after Upload files via SFTP)
     - ```
