@@ -107,7 +107,7 @@ Check the box for the AGL kit you previously set up
       
   - Add Deploy Step: Run custom remote command
     - ```
-      afm-util install hello\_qml.wgt
+      afm-util install hello_qml.wgt
       ```
       
 - Run configuration: Add: Custom executable (on remote generic linux host)
