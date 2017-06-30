@@ -28,7 +28,7 @@ Do these before opening the project
 #### Compilers tab
 - Add: Custom C++
   - Name: `AGL`
-  - Compiler path: `C:\agl\xds-make.exe`
+  - Compiler path: `C:\agl\xds-make.exe` (Make sure C:\agl\ is in your path)
   - All other fields blank/unknown
 #### Kits tab
 - Add
@@ -118,16 +118,46 @@ Check the box for the AGL kit you previously set up
 
 After you hit the green Run button in Qt Creator, check the compile output to see that it installed the .wgt file
 ```
-20:42:02: All files successfully deployed.
-20:42:02: Deploy step finished.
-20:42:02: Starting remote command "afm-util kill `pgrep -f afb-daemon.*hello_qml`"...
-true // NOTE: this will say not found if there was no process that matched that pattern--that's normal
-20:42:02: Remote command finished successfully.
-20:42:02: Deploy step finished.
-20:42:02: Starting remote command "afm-util install hello_qml.wgt"...
+21:45:14: Running steps for project hello_qml...
+21:45:14: Starting: "C:\agl\xds-exec.exe" -- rm -f build-agl/package/hello_qml.wgt
+21:45:15: The process "C:\agl\xds-exec.exe" exited normally.
+21:45:15: Starting: "C:\agl\xds-exec.exe" -- mkdir -p build-agl; cd build-agl; qmake ../
+Info: creating stash file /C/agl-hello-qml/build-agl/.qmake.stash
+21:45:15: The process "C:\agl\xds-exec.exe" exited normally.
+21:45:15: Starting: "C:\agl\xds-exec.exe" -- cd build-agl; make all
+cd app/ && ( test -e Makefile || /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/x86_64-aglsdk-linux/usr/bin/qt5/qmake -o Makefile /C/agl-hello-qml/app/app.pro ) && make -f Makefile all
+make[1]: Entering directory '/C/agl-hello-qml/build-agl/app'
+arm-agl-linux-gnueabi-g++  -march=armv7ve -marm -mfpu=neon-vfpv4  -mfloat-abi=hard --sysroot=/xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi -c -pipe  -O2 -pipe -g -feliminate-unused-debug-types  --sysroot=/xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_QUICKCONTROLS2_LIB -DQT_QUICK_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NO_QML_DEBUGGER -DQT_NETWORK_LIB -DQT_CORE_LIB -I../../app -I. -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5 -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5/QtQuickControls2 -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5/QtQuick -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5/QtGui -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5/QtQml -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5/QtNetwork -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5/QtCore -I. -I/xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/lib/qt5/mkspecs/linux-oe-g++ -o main.o ../../app/main.cpp
+/xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/x86_64-aglsdk-linux/usr/bin/qt5/rcc -name qml ../../app/qml.qrc -o qrc_qml.cpp
+arm-agl-linux-gnueabi-g++  -march=armv7ve -marm -mfpu=neon-vfpv4  -mfloat-abi=hard --sysroot=/xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi -c -pipe  -O2 -pipe -g -feliminate-unused-debug-types  --sysroot=/xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_QUICKCONTROLS2_LIB -DQT_QUICK_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NO_QML_DEBUGGER -DQT_NETWORK_LIB -DQT_CORE_LIB -I../../app -I. -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5 -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5/QtQuickControls2 -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5/QtQuick -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5/QtGui -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5/QtQml -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5/QtNetwork -isystem /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/include/qt5/QtCore -I. -I/xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/lib/qt5/mkspecs/linux-oe-g++ -o qrc_qml.o qrc_qml.cpp
+arm-agl-linux-gnueabi-g++  -march=armv7ve -marm -mfpu=neon-vfpv4  -mfloat-abi=hard --sysroot=/xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed --sysroot=/xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi -Wl,-O1 -Wl,-rpath-link,/xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/armv7vehf-neon-vfpv4-agl-linux-gnueabi/usr/lib -o ../package/root/bin/hello_qml main.o qrc_qml.o   -lQt5QuickControls2 -lQt5Quick -lQt5Gui -lQt5Qml -lQt5Network -lQt5Core -lGLESv2 -lpthread 
+make[1]: Leaving directory '/C/agl-hello-qml/build-agl/app'
+cd package/ && ( test -e Makefile || /xdt/sdk/poky-agl/3.99.1+snapshot/armv7vehf/sysroots/x86_64-aglsdk-linux/usr/bin/qt5/qmake -o Makefile /C/agl-hello-qml/package/package.pro ) && make -f Makefile all
+make[1]: Entering directory '/C/agl-hello-qml/build-agl/package'
+Makefile:572: warning: overriding recipe for target 'package'
+Makefile:224: warning: ignoring old recipe for target 'package'
+cp -f "/C/agl-hello-qml/package/icon.svg" "/C/agl-hello-qml/build-agl/package/root/icon.svg"
+cp -f "/C/agl-hello-qml/package/config.xml" "/C/agl-hello-qml/build-agl/package/root/config.xml"
+wgtpkg-pack -f -o hello_qml.wgt root
+<5> NOTICE: -- PACKING widget hello_qml.wgt from directory root [/xdt/build/porter/tmp/work/x86_64-nativesdk-aglsdk-linux/nativesdk-af-main/1.0-r0/git/src/wgtpkg-pack.c:132]
+make[1]: Leaving directory '/C/agl-hello-qml/build-agl/package'
+21:45:17: The process "C:\agl\xds-exec.exe" exited normally.
+21:45:17: The remote file system has 289 megabytes of free space, going ahead.
+21:45:17: Deploy step finished.
+21:45:17: Starting: "C:\agl-hello-qml\waitforsync.bat" 
+21:45:18: The process "C:\agl-hello-qml\waitforsync.bat" exited normally.
+21:45:18: Uploading file "C:\agl-hello-qml\build-agl\package\hello_qml.wgt"...
+21:45:18: All files successfully deployed.
+21:45:18: Deploy step finished.
+21:45:18: Starting remote command "afm-util kill `pgrep -f afb-daemon.*hello_qml`"...
+Error org.freedesktop.DBus.Error.Failed: "not found"
+21:45:19: Remote command finished successfully.
+21:45:19: Deploy step finished.
+21:45:19: Starting remote command "afm-util install hello_qml.wgt"...
 { "added": "hello_qml@0.1" }
-20:42:02: Remote command finished successfully.
-20:42:02: Deploy step finished.
+21:45:19: Remote command finished successfully.
+21:45:19: Deploy step finished.
+21:45:19: Elapsed time: 00:05.
 ```
 
 ## Run it on AGL
