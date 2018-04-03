@@ -2,7 +2,8 @@ QT += qml quick quickcontrols2
 
 TARGET = hello_qml
 
-CONFIG += c++11
+CONFIG += c++11 link_pkgconfig
+PKGCONFIG += qlibwindowmanager libhomescreen
 
 SOURCES += main.cpp
 
