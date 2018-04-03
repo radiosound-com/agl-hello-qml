@@ -6,6 +6,10 @@
   <description>This is a demo QML application</description>
   <author>Dennis Field at Radio Sound</author>
   <license>APL 2.0</license>
+  <feature name="urn:AGL:widget:required-api">
+    <param name="windowmanager" value="ws" />
+    <param name="homescreen" value="ws" />
+  </feature>
   <feature name="urn:AGL:widget:required-permission">
     <param name="urn:AGL:permission::public:no-htdocs" value="required" />
   </feature>
